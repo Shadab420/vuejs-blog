@@ -1,7 +1,7 @@
 <template>
   <h3>List of Posts</h3>
   <p v-if="isLoading === true">Loading...</p>
-  <p v-else-if="!allPosts.length"> No Posts!</p>
+  <p v-else-if="!allPosts.length">No Posts!</p>
   <div
     v-else
     v-for="post in allPosts"
@@ -41,6 +41,16 @@ export default defineComponent({
     },
 
     allPosts(): Post[] {
+      // return this.$store.state.posts;
+
+      let searchKey = this.$store.state.searchKey;
+      if (searchKey !== "") {
+        return this.$store.state.posts.filter(
+          (post: Post) =>
+            post.title?.toLowerCase()?.indexOf(searchKey.toLowerCase()) !== -1
+        );
+      }
+
       return this.$store.state.posts;
     },
   },

@@ -14,6 +14,7 @@ export default createStore<State>({
       token: "",
     },
     posts: [],
+    searchKey: "dfdf",
     post: {},
     errors: {
       auth: null,
@@ -45,6 +46,9 @@ export default createStore<State>({
     },
     SET_POST(state, data) {
       state.post = data;
+    },
+    SET_SEARCH_KEY(state, searchKey) {
+      state.searchKey = searchKey;
     },
     ADD_NEW_POST(state, newPost) {
       state.posts = [...state.posts, newPost];
@@ -93,6 +97,10 @@ export default createStore<State>({
           context.commit("SET_LOADING_STATUS", false);
           context.commit("SET_POST_ERROR", err);
         });
+    },
+
+    setSearchKeyAction(context, searchKey) {
+      context.commit("SET_SEARCH_KEY", searchKey);
     },
 
     getPostByIdAction(context, postId) {

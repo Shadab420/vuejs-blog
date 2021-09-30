@@ -7,6 +7,7 @@ export interface State {
     token: string;
   };
   posts: Post[];
+  searchKey: string;
   post: Post;
   errors: {
     auth: string | null;

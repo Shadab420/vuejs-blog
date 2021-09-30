@@ -21,7 +21,7 @@
           <span
             class="nav-link"
             v-if="authorized !== 'guest'"
-            @click="triggerHello"
+            @click="triggerCreatePostDialog"
             >Create Post</span
           >
 
@@ -52,13 +52,17 @@
       </div>
     </div>
     <div class="d-flex">
-      <input
-        class="form-control me-2"
+      <InputText
+        class="form-control"
         type="search"
         placeholder="Search"
         aria-label="Search"
+        v-model:value="searchKey"
+        @input="setSearchKey"
       />
-      <button class="btn btn-outline-success">Search</button>
+      <!-- <button class="btn btn-outline-success">
+        <i class="pi pi-search"></i>
+      </button> -->
     </div>
   </nav>
 </template>
@@ -78,6 +82,7 @@ export default defineComponent({
     //   localStorage.getItem("auth") as string
     // )?.email;
     const display = ref<boolean>(true);
+    const searchKey = ""; //computed(() => store.state.searchKey);
     const authorized = computed(() => {
       return store.state.auth.userEmail.length > 0 ? "auth" : "guest";
     });
@@ -117,8 +122,13 @@ export default defineComponent({
       store.dispatch("logoutAction");
     };
 
-    const triggerHello = () => {
+    const triggerCreatePostDialog = () => {
       display.value = !display.value;
+    };
+
+    const setSearchKey = (e: Event) => {
+      let eventTargetValue = (e.target as HTMLInputElement).value; // not mentioned in docs :|
+      store.dispatch("setSearchKeyAction", eventTargetValue);
     };
 
     return {
@@ -126,7 +136,9 @@ export default defineComponent({
       logout,
       authorized,
       display,
-      triggerHello,
+      searchKey,
+      triggerCreatePostDialog,
+      setSearchKey,
     };
   },
 });
