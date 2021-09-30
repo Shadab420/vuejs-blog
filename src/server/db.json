@@ -1,0 +1,23 @@
+{
+  "users": [
+    {
+      "email": "a@b.com",
+      "password": "$2a$10$6VIpDEjmCsukvgwhTSzFAO/P1VhxIJfhDSDAW8oREvBIV7ID6bU72",
+      "id": 1
+    }
+  ],
+  "posts": [
+    {
+      "title": "VueJS: A JS Frontend Framework.",
+      "description": "In this course you're gonna learn how to deal with frontend with a popular frontend framework named VUE.JS! Are you excited?",
+      "author": "a@b.com",
+      "id": 1
+    },
+    {
+      "title": "Help post!",
+      "description": "Please help. Vuejs seams difficult for me.. :(",
+      "author": "a@b.com",
+      "id": 2
+    }
+  ]
+}
