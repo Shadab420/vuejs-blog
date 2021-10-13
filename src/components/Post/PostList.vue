@@ -18,11 +18,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, ComputedRef, defineComponent, onMounted, ref } from "vue";
 // import axios from "axios";
 import Post from "@/types/Post";
 import SinglePost from "@/components/Post/SinglePost.vue";
-import { useStore } from "vuex";
+import { mapActions, mapState, useStore } from "vuex";
+import { PostState } from "@/types/vuex-state/PostState";
 
 export default defineComponent({
   name: "PostList",
@@ -31,51 +32,70 @@ export default defineComponent({
    * options api
    */
 
-  created() {
-    this.$store.dispatch("getAllPostsAction");
-  },
+  // created() {
+  //   this.getAllPostsAction();
+  // },
 
-  computed: {
-    isLoading(): boolean {
-      return this.$store.state.isLoading;
-    },
+  // methods: {
+  //   ...mapActions(["getAllPostsAction"]),
+  // },
 
-    allPosts(): Post[] {
-      // return this.$store.state.posts;
+  // computed: {
+  //   isLoading(): boolean {
+  //     return this.post.isLoading;
+  //   },
 
-      let searchKey = this.$store.state.searchKey;
-      if (searchKey !== "") {
-        return this.$store.state.posts.filter(
-          (post: Post) =>
-            post.title?.toLowerCase()?.indexOf(searchKey.toLowerCase()) !== -1
-        );
-      }
+  //   allPosts(): Post[] {
+  //     // return this.$store.state.posts;
 
-      return this.$store.state.posts;
-    },
-  },
+  //     let searchKey = this.post.searchKey;
+  //     if (searchKey !== "") {
+  //       return this.post.posts.filter(
+  //         (post: Post) =>
+  //           post.title?.toLowerCase()?.indexOf(searchKey.toLowerCase()) !== -1
+  //       );
+  //     }
+
+  //     return this.post.posts;
+  //   },
+
+  //   ...mapState(["post"]),
+  // },
 
   /**
    * composition api
    */
 
-  // setup() {
-  //   const store = useStore(); //vuex store
+  setup() {
+    const store = useStore(); //vuex store
 
-  //   let allPosts = ref<Post[]>([]);
-  //   const isLoading = computed(() => store.state.isLoading);
+    const postState: PostState = store.state.post; //post
 
-  //   onMounted(() => {
-  //     store.dispatch("getAllPostsAction").then(() => {
-  //       allPosts.value = store.state.posts;
-  //     });
-  //   });
+    let allPosts = computed(() => {
+      if (postState.searchKey !== "") {
+        return postState.posts.filter(
+          (post: Post) =>
+            post.title
+              ?.toLowerCase()
+              ?.indexOf(postState.searchKey.toLowerCase()) !== -1
+        );
+      }
 
-  //   return {
-  //     allPosts,
-  //     isLoading,
-  //   };
-  // },
+      return postState.posts;
+    });
+    const isLoading: ComputedRef<boolean> = computed(
+      () => store.state.isLoading
+    );
+
+    onMounted(() => {
+      store.dispatch("getAllPostsAction");
+    });
+
+    return {
+      allPosts,
+      isLoading,
+    };
+  },
 });
 </script>
 

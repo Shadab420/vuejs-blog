@@ -14,7 +14,13 @@
 <script lang="ts">
 import router from "@/router";
 import Post from "@/types/Post";
-import { defineComponent, PropType } from "@vue/runtime-core";
+import {
+  computed,
+  ComputedRef,
+  defineComponent,
+  PropType,
+} from "@vue/runtime-core";
+import { mapActions, mapState, useStore } from "vuex";
 
 export default defineComponent({
   name: "SinglePost",
@@ -22,20 +28,48 @@ export default defineComponent({
     post: Object as PropType<Post>,
   },
 
-  methods: {
-    postDetails(postId: number): void {
+  /**
+   * options api
+   */
+  // methods: {
+  //   postDetails(postId: number): void {
+  //     router.push(`/post/${postId}`);
+  //   },
+
+  //   ...mapActions(["removePostAction"]),
+  // },
+
+  // computed: {
+  //   authorized() {
+  //     return this.auth.userEmail.length > 0;
+  //   },
+
+  //   ...mapState(["auth"]),
+  // },
+
+  /**
+   * composition api
+   */
+
+  setup(props) {
+    const store = useStore(); //vuex store
+    const authorized: ComputedRef<boolean> = computed(() => {
+      return store.state.auth.auth.userEmail.length > 0;
+    });
+
+    const postDetails = (postId: number): void => {
       router.push(`/post/${postId}`);
-    },
+    };
 
-    removePost(postId: number): void {
-      this.$store.dispatch("removePostAction", postId);
-    },
-  },
+    const removePost = (postId: number): void => {
+      store.dispatch("removePostAction", postId);
+    };
 
-  computed: {
-    authorized() {
-      return this.$store.state.auth.userEmail.length > 0;
-    },
+    return {
+      authorized,
+      postDetails,
+      removePost,
+    };
   },
 });
 </script>

@@ -33,7 +33,7 @@ export default defineComponent({
       (): boolean => store.state.isLoading
     );
 
-    const post: ComputedRef<Post> = computed((): Post => store.state.post);
+    const post: ComputedRef<Post> = computed((): Post => store.state.post.post);
 
     onMounted(() => {
       const { postId } = route.params;

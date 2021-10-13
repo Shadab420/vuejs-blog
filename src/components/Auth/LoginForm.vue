@@ -42,7 +42,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const formData = ref<LoginData>({ email: "", password: "" });
-    const isLoading = store.state.isLoding;
+    const isLoading = store.state.auth.isLoding;
 
     const sendForm = async () => {
       //api call

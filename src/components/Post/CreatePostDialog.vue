@@ -128,7 +128,7 @@ export default defineComponent({
       store
         .dispatch("createPostAction", {
           ...formData.value,
-          author: store.state.auth.userEmail,
+          author: store.state.auth.auth.userEmail,
         })
         .then(() => {
           //   success.value = "Post added!";

@@ -83,8 +83,9 @@ export default defineComponent({
     // )?.email;
     const display = ref<boolean>(true);
     const searchKey = ""; //computed(() => store.state.searchKey);
+    const authState = computed(() => store.state.auth.auth);
     const authorized = computed(() => {
-      return store.state.auth.userEmail.length > 0 ? "auth" : "guest";
+      return authState.value.userEmail.length > 0 ? "auth" : "guest";
     });
     const allNavLinks: NavLink[] = [
       {
