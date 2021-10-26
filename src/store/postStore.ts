@@ -18,10 +18,10 @@ const postStore = {
     SET_LOADING_STATUS(state: PostState, value: boolean): void {
       state.isLoading = value;
     },
-    SET_ALL_POSTS(state: PostState, data: any): void {
+    SET_ALL_POSTS(state: PostState, data: Post[]): void {
       state.posts = data;
     },
-    SET_POST(state: PostState, data: any): void {
+    SET_POST(state: PostState, data: Post): void {
       state.post = data;
     },
     SET_SEARCH_KEY(state: PostState, searchKey: string): void {
